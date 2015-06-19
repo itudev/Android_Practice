@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="messageId"/>
+    <item type="id" name="userNameId" />
+    <item type="id" name="userNameValueId" />
+    <item type="id" name="passwordId" />
+    <item type="id" name="passwordValueId" />
+    <item type="id" name="loginId" />
+
+
+</resources>
