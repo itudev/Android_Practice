@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SocialNetworkUI_UsingRelativeLayout</string>
+    <string name="title">faceshare</string>
+    <string name="textViewemail">Email:</string>
+
+    <string name="textViewPassword">Password</string>
+
+    <string name="save">Save Login</string>
+    <string name="Account">Need an Account?\n Sign up using your phone </string>
+    <string name="action_settings">Settings</string>
+
+</resources>

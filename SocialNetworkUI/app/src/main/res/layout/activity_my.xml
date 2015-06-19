@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#25c"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title"
+        android:id="@+id/faceshare"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        style="@style/textColor"
+       />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textViewemail"
+        android:id="@+id/textViewemail"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/faceshare"
+        style="@style/textColor"
+        android:padding="2dp"
+
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/emailEditText"
+        android:layout_below="@+id/textViewemail"
+        android:inputType="textPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        style="@style/textColor"
+        android:background="#fff"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textViewPassword"
+        android:id="@+id/password"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/emailEditText"
+        style="@style/textColor"
+        android:padding="2dp"
+
+
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordEditText"
+        android:layout_below="@+id/password"
+        android:inputType="textPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        style="@style/textColor"
+        android:background="#fff"
+        />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBelow="@+id/passwordEditText"
+        android:layout_alignParentLeft="true"
+        android:checked="true"
+        android:text="@string/save"
+        android:layout_below="@+id/passwordEditText"
+        android:id="@+id/checkBox"
+        style="@style/textColor"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Account"
+        android:id="@+id/textView4"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        style="@style/textColor"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        />
+
+</RelativeLayout>
