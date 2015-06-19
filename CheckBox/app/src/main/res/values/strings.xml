@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CheckBox</string>
+    <string name="hello_world">I want coffee with</string>
+    <string name="sugar">with sugar</string>
+    <string name="without">without sugar</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
