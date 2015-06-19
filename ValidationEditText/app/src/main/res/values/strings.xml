@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ValidationEditText</string>
+    <string name="textView1">Enter Percentage Value</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
