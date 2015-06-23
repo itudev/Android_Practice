@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">listViewSample</string>
+    <string name="textOnButton">SecondActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_activity_with_list_activity_implementation">ActivityWithListActivityImplementation</string>
+
+</resources>
