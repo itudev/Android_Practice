@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SMSApp</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="enterPhoneNumber">Enter Phone NUmber</string>
+    <string name="enterMessage">Enter Message</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
