@@ -6,8 +6,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +22,8 @@ import android.widget.Toast;
 
 public class MyActivity extends Activity {
     Button smsButton;
+    Button contacts;
+    final int PICK_CONTACTS = 1;
     EditText phoneEdit, messageEdit;
     TextView enterPhone, enterMessage;
     String SENT = "SMS SENT";
@@ -33,6 +40,7 @@ public class MyActivity extends Activity {
         messageEdit = (EditText) findViewById(R.id.messageEdit);
         enterPhone = (TextView) findViewById(R.id.enterPhone);
         enterMessage = (TextView) findViewById(R.id.enterMessage);
+        contacts = (Button) findViewById(R.id.contacts);
         /*context, result code, intent object, flag?
 
         two pending intent objects, they will be used to send broadcast later
@@ -50,7 +58,83 @@ public class MyActivity extends Activity {
             }
         });
 
+        contacts.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, PICK_CONTACTS);
+
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        String phone;
+        String email;
+        String name;
+        Cursor cursor;  // Cursor object
+        String mime;    // MIME type
+        int dataIdx;    // Index of DATA1 column
+        int mimeIdx;    // Index of MIMETYPE column
+        int nameIdx;    // Index of DISPLAY_NAME column
+
+        super.onActivityResult(reqCode, resultCode, data);
+
+        switch (reqCode) {
+            case (PICK_CONTACTS):
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri contactData = data.getData();
+                    // Get the name
+                    cursor = getContentResolver().query(contactData,
+                            new String[]{ContactsContract.Contacts.DISPLAY_NAME},
+                            null, null, null);
+                    if (cursor.moveToFirst()) {
+                        nameIdx = cursor.getColumnIndex(
+                                ContactsContract.Contacts.DISPLAY_NAME);
+                        name = cursor.getString(nameIdx);
+
+                        // Set up the projection
+                        String[] projection = {
+                                ContactsContract.Data.DISPLAY_NAME,
+                                ContactsContract.Contacts.Data.DATA1,
+                                ContactsContract.Contacts.Data.MIMETYPE};
+
+                        // Query ContactsContract.Data
+                        cursor = getContentResolver().query(
+                                ContactsContract.Data.CONTENT_URI, projection,
+                                ContactsContract.Data.DISPLAY_NAME + " = ?",
+                                new String[]{name},
+                                null);
+
+                        if (cursor.moveToFirst()) {
+                            // Get the indexes of the MIME type and data
+                            mimeIdx = cursor.getColumnIndex(
+                                    ContactsContract.Contacts.Data.MIMETYPE);
+                            dataIdx = cursor.getColumnIndex(
+                                    ContactsContract.Contacts.Data.DATA1);
+
+                            // Match the data to the MIME type, store in variables
+                            do {
+                                mime = cursor.getString(mimeIdx);
+                                if (ContactsContract.CommonDataKinds.Email
+                                        .CONTENT_ITEM_TYPE.equalsIgnoreCase(mime)) {
+                                    email = cursor.getString(dataIdx);
+                                }
+                                if (ContactsContract.CommonDataKinds.Phone
+                                        .CONTENT_ITEM_TYPE.equalsIgnoreCase(mime)) {
+                                    phone = cursor.getString(dataIdx);
+                                    phoneEdit.setText(phone);
+                                }
+                            } while (cursor.moveToNext());
+                        }
+                    }
+                }
+        }
     }
 
 
@@ -134,5 +218,22 @@ public class MyActivity extends Activity {
         unregisterReceiver(smsDeliveredReceiver);
     }
 
-  
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.my, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

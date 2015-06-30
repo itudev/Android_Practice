@@ -14,13 +14,19 @@
         android:text="@string/enterPhoneNumber"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-
+    <Button
+        android:id="@+id/contacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="contacts"/>
     <EditText
         android:id="@+id/phoneEdit"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/enterPhone"
         android:inputType="number"
+        android:layout_below="@+id/enterPhone"
 
         />
 
@@ -28,26 +34,26 @@
         android:id="@+id/enterMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/phoneEdit"
         android:text="@string/enterMessage"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@+id/phoneEdit"/>
 
     <EditText
         android:id="@+id/messageEdit"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/enterMessage"
         android:gravity="top"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:layout_below="@+id/enterMessage"/>
 
 
     <Button
         android:id="@+id/smsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/messageEdit"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:text="Send SMS" />
+        android:text="Send SMS"
+        android:layout_below="@+id/messageEdit"/>
 
 </RelativeLayout>
