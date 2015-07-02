@@ -3,6 +3,7 @@
 
     <string name="app_name">HusbandTracker</string>
     <string name="secretCode">Enter Secret Code</string>
+    <string name="saveButton">Save</string>
     <string name="action_settings">Settings</string>
 
 </resources>

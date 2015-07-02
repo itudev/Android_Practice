@@ -18,6 +18,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/enterSecretCode"
-        android:inputType="number"/>
+        android:inputType="number"
+      />
+    <Button
+        android:text="@string/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/save"
+        android:layout_below="@+id/secretCodeEdit"
+        android:layout_centerInParent="true"
+        />
 
 </RelativeLayout>
