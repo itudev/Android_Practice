@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -20,7 +21,8 @@ public class MyActivity extends Activity {
     public static String secretCodeValue;
 
     EditText secretCodeEdit;
-    Button saveButton;
+    TextView enterSecretCode, displaySecretCode, savedSecretCode;
+    Button saveButton, editButton;
 
 
     @Override
@@ -36,13 +38,45 @@ public class MyActivity extends Activity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         //capturing EditText
         secretCodeEdit = (EditText) findViewById(R.id.secretCodeEdit);
+        enterSecretCode = (TextView) findViewById(R.id.enterSecretCode);
+        displaySecretCode = (TextView) findViewById(R.id.displaySecretCode);
+        savedSecretCode = (TextView) findViewById(R.id.savedSecretCode);
         saveButton = (Button) findViewById(R.id.save);
         saveButton.setEnabled(false);
+        editButton = (Button) findViewById(R.id.edit);
+        editButton.setEnabled(false);
 
            /* Set Text Watcher listener */
 
         secretCodeEdit.addTextChangedListener(secretCodeWatcher);
-        //retrieving text form edit text
+        if (sharedpreferences != null) {
+            //String secretCode = secretCodeEdit.getText().toString();
+                      /*in order to save something in Editor object get an instance of Editor by calling edit()*/
+            secretCodeValue = sharedpreferences.getString(SECRET_CODE, "");
+            Log.d("code", secretCodeValue);
+            secretCodeEdit.setVisibility(View.INVISIBLE);
+            enterSecretCode.setVisibility(View.INVISIBLE);
+            savedSecretCode.setVisibility(View.INVISIBLE);
+            displaySecretCode.setText("Your saved secret code value is:" + secretCodeValue);
+            editButton.setEnabled(true);
+
+
+        }
+        //editButton clickListener
+        editButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                enterSecretCode.setVisibility(View.VISIBLE);
+                secretCodeEdit.setVisibility(View.VISIBLE);
+                displaySecretCode.setVisibility(View.INVISIBLE);
+                secretCodeEdit.setText(secretCodeValue);
+                editButton.setEnabled(false);
+            }
+
+
+        });
 
 
     }
@@ -74,18 +108,17 @@ public class MyActivity extends Activity {
                       /*in order to save something in Editor object get an instance of Editor by calling edit()*/
                         editor.putString(SECRET_CODE, secretCode);
                         editor.apply();
+                        //retrieving value from Editor instance corresponding to particular key.
                         secretCodeValue = sharedpreferences.getString(SECRET_CODE, "");
                         Log.d("code", secretCodeValue);
-
-                        //retrieving value from Editor instance corresponding to particular key.
-
+                        enterSecretCode.setVisibility(View.INVISIBLE);
+                        savedSecretCode.setText("Your saved secret code value is:" + secretCodeValue);
+                        savedSecretCode.setVisibility(View.VISIBLE);
+                        secretCodeEdit.setVisibility(View.INVISIBLE);
+                        saveButton.setEnabled(false);
+                        editButton.setEnabled(true);
                     }
-
-
                 });
-//            secretCodeValue = sharedpreferences.getString(SECRET_CODE, "");
-//            Log.d("code", secretCodeValue);
-
 
             } else {
                 Toast.makeText(getApplicationContext(), "enter four digits", Toast.LENGTH_SHORT).show();

@@ -19,7 +19,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/enterSecretCode"
         android:inputType="number"
+        android:maxLength="4"
       />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/displaySecretCode"
+        />
+    <TextView
+        android:id="@+id/savedSecretCode"
+        android:text="@string/secretCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <Button
         android:text="@string/saveButton"
         android:layout_width="wrap_content"
@@ -27,6 +38,15 @@
         android:id="@+id/save"
         android:layout_below="@+id/secretCodeEdit"
         android:layout_centerInParent="true"
+        />
+
+    <Button
+        android:text="@string/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit"
+        android:layout_toRightOf="@+id/save"
+        android:layout_below="@+id/secretCodeEdit"
         />
 
 </RelativeLayout>
