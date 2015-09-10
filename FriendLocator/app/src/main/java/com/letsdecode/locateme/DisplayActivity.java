@@ -1,14 +1,17 @@
-package com.letsdecode.friendlocator;
+package com.letsdecode.locateme;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 
 public class DisplayActivity extends Activity {
 
@@ -18,13 +21,13 @@ public class DisplayActivity extends Activity {
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String SECRET_CODE = "secretKey";
     public SharedPreferences sharedpreferences;
-    String secretCodeDisplay, secretCode;
+    String secretCodeDisplay;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Tag", "onCreateCalled");
+        Fabric.with(this, new Crashlytics());
         //xml object
         setContentView(R.layout.display_activiity);
         //capturing TextView
@@ -34,35 +37,17 @@ public class DisplayActivity extends Activity {
         if (sharedpreferences != null) {
             String code = sharedpreferences.getString(SECRET_CODE, "");
 
-        if (code.isEmpty()) {
-            Intent intentDisplay = new Intent(this, EditActivity.class);
-            startActivityForResult(intentDisplay, REQUEST_CODE);
+            if (code.isEmpty()) {
+                Intent intentDisplay = new Intent(this, EditActivity.class);
+                startActivityForResult(intentDisplay, REQUEST_CODE);
+            }
         }
     }
-
-
-//        if (savedInstanceState != null) {
-//            boolean isEditEnabled = savedInstanceState.getBoolean("EditPressed");
-//            if (isEditEnabled) {
-//                onEditClicked();
-//            }
-//        }
-
-    }
-
-
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        outState.putBoolean("EditPressed", editButton.isEnabled());
-//        super.onSaveInstanceState(outState);
-//
-//    }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("Tag", "onResumeCalled");
         sharedPreferencesFunction();
     }
 
@@ -85,8 +70,6 @@ public class DisplayActivity extends Activity {
     private void onEditClicked() {
         Intent intentDisplay = new Intent(this, EditActivity.class);
         startActivityForResult(intentDisplay, REQUEST_CODE);
-
-
     }
 
     // onActivityResult
@@ -98,7 +81,7 @@ public class DisplayActivity extends Activity {
 
         if (requestCode == REQUEST_CODE) {
 
-            if (resultCode == RESULT_OK ) {
+            if (resultCode == RESULT_OK) {
                 code = data.getStringExtra("codeValue");
                 if (code != null && code.isEmpty() == false) {
                     SharedPreferences.Editor editor = sharedpreferences.edit();

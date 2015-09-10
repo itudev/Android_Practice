@@ -13,10 +13,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.support.v7.widget.ShareActionProvider;
+
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
-
-
 
 
 public class DisplayActivity extends ActionBarActivity {
@@ -25,40 +25,36 @@ public class DisplayActivity extends ActionBarActivity {
      */
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String SECRET_CODE = "secretKey";
-
     int REQUEST_CODE = 1;
-    private TextView savedSecretCode;
+    public static TextView savedSecretCode;
     private Button editButton;
-    private SharedPreferences mSharedpreferences;
+    public static SharedPreferences mSharedpreferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //crashylitics takes care of any crashes.
         Fabric.with(this, new Crashlytics());
         //xml object
         setContentView(R.layout.display_activiity);
         //capturing TextView
         savedSecretCode = (TextView) findViewById(R.id.savedSecretCode);
         editButton = (Button) findViewById(R.id.edit);
+        //
         mSharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         if (mSharedpreferences != null) {
             String code = mSharedpreferences.getString(SECRET_CODE, "");
             if (code.isEmpty()) {
-                Intent intentDisplay = new Intent(this, EditActivity.class);
-                startActivityForResult(intentDisplay, REQUEST_CODE);
+                onEditClicked();
             }
         }
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
-
-
     }
-
 
     @Override
     protected void onResume() {
         super.onResume();
+        //this method wud diplay the saved code value on displayActivity.
         sharedPreferencesFunction();
 
 
@@ -84,11 +80,11 @@ public class DisplayActivity extends ActionBarActivity {
         startActivityForResult(intentDisplay, REQUEST_CODE);
     }
 
-    // onActivityResult
+    // onActivityResult is used to retrieve the value set by editActivity, to display in the diplayActivity.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String code = null;
+        String code;
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE) {
@@ -108,11 +104,15 @@ public class DisplayActivity extends ActionBarActivity {
         }
     }
 
+    /* This is invoked when back is pressed on editActivity,
+     as we have fair idea that back will be called only when save button is not clicked on editActivity
+     and hence we would have to show previously saved code in the display activity
+      */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        String codeCode = mSharedpreferences.getString(SECRET_CODE, "");
-        savedSecretCode.setText("saved code " + codeCode);
+        String secretCode = mSharedpreferences.getString(SECRET_CODE, "");
+        savedSecretCode.setText("saved code " + secretCode);
     }
 
     @Override
@@ -159,9 +159,6 @@ public class DisplayActivity extends ActionBarActivity {
         //add a subject
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
                 subject);
-        //build the body of the message to be shared
-        // String shareLink = "https://play.google.com/store/apps/details?id=com.sm.smove";
-        //add the message
         i.putExtra(android.content.Intent.EXTRA_TEXT,
                 message);
         return i;

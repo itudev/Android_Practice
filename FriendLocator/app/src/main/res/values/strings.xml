@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Friend Locator</string>
+    <string name="app_name">Locate Me</string>
     <string name="secretCode">Enter Secret Code</string>
     <string name="saveButton">Save</string>
     <string name="editButton">Edit</string>

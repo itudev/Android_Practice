@@ -23,7 +23,7 @@ android {
         applicationId "com.letsdecode.locateme"
         minSdkVersion 17
         targetSdkVersion 20
-        versionCode 1
+        versionCode 10001
         versionName "1.0"
     }
     signingConfigs {

@@ -1,4 +1,4 @@
-package com.letsdecode.friendlocator;
+package com.letsdecode.locateme;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +15,6 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,8 +64,7 @@ public class SmsReceiver extends BroadcastReceiver {
             } else {
                 return;
             }
-//            //so that other applications not handle this
-//            this.abortBroadcast();
+
         }
     }
 

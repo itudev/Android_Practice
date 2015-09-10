@@ -1,4 +1,4 @@
-package com.letsdecode.friendlocator;
+package com.letsdecode.locateme;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,21 +18,16 @@ public class EditActivity extends Activity {
     public EditText secretCodeEdit;
     TextView enterSecretCode;
     public Button saveButton;
-    boolean clicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        clicked = false;
         setContentView(R.layout.edit_activity);
         enterSecretCode = (TextView) findViewById(R.id.enterSecretCode);
         enterSecretCode.setText("Set your secret code");
         saveButton = (Button) findViewById(R.id.save);
-
-
         secretCodeEdit = (EditText) findViewById(R.id.secretCodeEdit);
          /* Set Text Watcher listener */
-
         secretCodeEdit.addTextChangedListener(secretCodeWatcher);
 
 
@@ -59,7 +54,6 @@ public class EditActivity extends Activity {
                         Intent codeIntent = new Intent(getApplicationContext(), DisplayActivity.class);
                         codeIntent.putExtra("codeValue", secretCodeValue);
                         setResult(RESULT_OK, codeIntent);
-                        //startActivity(codeIntent);
                         finish();
 
 
@@ -70,21 +64,10 @@ public class EditActivity extends Activity {
                 saveButton.setEnabled(false);
             }
 
-
         }
 
 
     };
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        finish();
-//            moveTaskToBack(true);
-
-
-    }
 
 
 }

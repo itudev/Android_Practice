@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -35,9 +34,12 @@ public class SmsReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //get the sms message passed in
         Bundle bundle = intent.getExtras();
+        //get reference of SharedPreferences via context
         sharedpreferences = context.getSharedPreferences(DisplayActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         if (bundle != null && sharedpreferences != null) {
+            //get the value of code
             final String secretCodeValue = sharedpreferences.getString(DisplayActivity.SECRET_CODE, null);
+            //if null or empty return
             if (secretCodeValue == null || secretCodeValue.isEmpty()) {
                 return;
             }
@@ -55,17 +57,40 @@ public class SmsReceiver extends BroadcastReceiver {
             }
             //Verify sms content to see if secret code matches
             if (messageBody.equals(secretCodeValue)) {
+                //handling of location on/off
+                boolean gpsAvailable = false;
                 //Initialize Geocoder before subscribing for locations
                 geocoder = new Geocoder(context, Locale.getDefault());
                 mLocationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+                if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME,
+                                LOCATION_REFRESH_DISTANCE, mLocationListener);
+                        gpsAvailable = true;
+                    } else {
+                        gpsAvailable = false;
+                    }
+                } else {
+                    gpsAvailable = true;
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+                            LOCATION_REFRESH_DISTANCE, mLocationListener);
+                }
 
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-                        LOCATION_REFRESH_DISTANCE, mLocationListener);
+                if (gpsAvailable == false) {
+                    sendMessage("Sorry, GPS on my device is disabled. I can't provide my current location at this moment");
+                }
+                //else if messageBody notEquals secretCodeValue kindly return
             } else {
                 return;
             }
 
         }
+    }
+
+    private void sendMessage(String sms) {
+        final SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phoneNumber, null, sms, null, null);
+
     }
 
     final LocationListener mLocationListener = new LocationListener() {
@@ -92,14 +117,13 @@ public class SmsReceiver extends BroadcastReceiver {
                     sb.append(address.getLocality()).append("\n");
                     sb.append(address.getPostalCode()).append("\n");
                     sb.append(address.getCountryName());
-                    //if everything works fine then send geo coded address
+                    //if everything works fine then append geo coded address and use this to send
                     sms = sb.toString();
                 }
             } catch (IOException e) {
 
             }
-            final SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNumber, null, sms, null, null);
+            sendMessage(sms);
         }
 
         @Override
